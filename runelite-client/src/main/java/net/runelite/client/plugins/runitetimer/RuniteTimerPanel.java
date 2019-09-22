@@ -99,6 +99,8 @@ public class RuniteTimerPanel extends PluginPanel
         JButton resetButton = new JButton("Reset");
         resetButton.setFocusable(false);
         resetButton.addActionListener(l -> resetElems());
+        resetButton.setMinimumSize(new Dimension(60, 0));
+        resetButton.setPreferredSize(new Dimension(60, 0));
 
         JComboBox mineSelect = new JComboBox<>(plugin.getMineList());
         mineSelect.addActionListener(e -> {

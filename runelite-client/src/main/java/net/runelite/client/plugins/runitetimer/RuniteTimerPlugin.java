@@ -43,8 +43,8 @@ public class RuniteTimerPlugin extends Plugin
 {
 
     final static boolean debug = false;
-    final static Set<Integer> RUNITE_ROCK = Stream.of(11376, 36209).collect(Collectors.toSet());
-    final static Set<Integer> EMPTY_ROCK = Stream.of(11390, 36202).collect(Collectors.toSet());
+    final static Set<Integer> RUNITE_ROCK = Stream.of(11376, 11377, 36209).collect(Collectors.toSet());
+    final static Set<Integer> EMPTY_ROCK = Stream.of(11390, 11391, 36202).collect(Collectors.toSet());
 
     public java.util.List<net.runelite.api.World> worldList = new ArrayList<net.runelite.api.World>();
     private Instant lastLoad = Instant.now();
@@ -54,30 +54,38 @@ public class RuniteTimerPlugin extends Plugin
 
     private WorldResult worldResult;
 
+    private int[][] fossil = {{3779,3814}, {3781, 3817}};
+    private int[][] fremennik = {{2375,3850}};
+    private int[][] plateau = {{2948,3914}, {2964,3933}, {2976,3937}};
+    private int[][] heroes = {{2937,9882}, {2941,9884}};
+    private int[][] isafdar = {{2278,3156}, {2280,3160}};
+    private int[][] maze = {{3059,3885}, {3060,3884}};
+    private int[][] mazedungeon = {{3046,10265}};
+    private int[][] guild = {{3054,9725}, {3056,9721}};
+    private int[][] mourner = {{1993,4664}};
+    private int[][] myth = {{1937,9020}, {1939,9019}};
+    private int[][] tzhaar = {{2498,5065}, {2501,5066}, {2504,5059}};
+    private int[][] priff = {{3284,12459}, {3287,12455}, {3291,12441}, {3301,12438}};
 
-    private Mine mythsMine = new Mine(new Rock[]{new Rock(1937,9020), new Rock(1939,9019)}, null);
-    private Mine guildMine = new Mine(new Rock[]{new Rock(3054,9725), new Rock(3056,9721)}, null);
-    private Mine priffMine = new Mine(
-            new Rock[]{
-                    new Rock(3301,12438),
-                    new Rock(3291,12441),
-                    new Rock(3287,12455),
-                    new Rock(3284,12459),
-            }, null);
-
-    private int[][] myth = {{1937,9020},{1939,9019}};
-    private int[][] guild = {{1937,9020},{1939,9019}};
-    private int[][] priff = {{3301, 12438},{3291,12441},{3287,12455}, {3284,12459}};
-
-
-    final private Map<String, int[][]> mines = Stream.of(new Object[][] {
-        { "Myths' Guild", myth },
-        { "Mining Guild", guild },
-        { "Trahaearn mine", priff },
+    final private Map<String, int[][]> mines =
+        Stream.of(new Object[][] {
+            { "Fossil Island", fossil },
+            { "Fremennik Isles", fremennik },
+            { "Frozen Waste Plateau", plateau },
+            { "Heroes' Guild", heroes },
+            { "Isafdar mine", isafdar },
+            { "Lava Maze", maze },
+            { "Lava Maze Dungeon", mazedungeon },
+            { "Mining Guild", guild },
+            { "Mourner Tunnels", mourner },
+            { "Myths' Guild", myth },
+            { "Mor Ul Rek", tzhaar },
+            { "Trahaearn (Prifddinas)", priff },
     }).collect(Collectors.toMap(data -> (String) data[0], data -> (int[][]) data[1]));
 
-    private static String defaultMine = "Trahaearn mine";
+    private static String defaultMine = "Trahaearn (Prifddinas)";
     private String currMineName = defaultMine;
+
     public Mine currMine(net.runelite.api.World w) {
         List<Rock> rocks = new ArrayList<Rock>();
         for (int[] pos : mines.get(currMineName)) {
@@ -445,6 +453,7 @@ public class RuniteTimerPlugin extends Plugin
     public String[] getMineList() {
         Set<String> keys = this.mines.keySet();
         String[] k = keys.toArray(new String[keys.size()]);
+        Arrays.sort(k);
         return k;
     }
 
